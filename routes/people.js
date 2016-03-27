@@ -1,6 +1,9 @@
 // /data
 var router = require('express').Router();
 var mongoose = require('mongoose');
+var cors = require('cors'); // todo: read up on cors --> https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+router.use(cors());
+
 
 var mongo_url = 'mongodb://heroku_xp0w64pp:t84aguoepe0q2b0eqgr5evpkpq@ds025439.mlab.com:25439/heroku_xp0w64pp';
 mongoose.connect(process.env.MONGOLAB_URI || mongo_url, function (err) {
@@ -19,6 +22,15 @@ router.get('/', function (req, res) {
         message: 'Hi from my first restful service ... ',
         people: people
     });
+});
+
+router.get('/jsonp', function (req, res) { //http://localhost:3000/people/jsonp?callback=printInfo
+
+    // "printInfo({ message: 'asdf' })"
+    // req.query.callback --> printInfo
+    res.send(
+        req.query.callback + '(' +  JSON.stringify(people) + ')'
+    );
 });
 
 module.exports = router;

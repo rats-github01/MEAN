@@ -21,7 +21,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    express.static(
+        path.join(__dirname, 'public'),
+        {
+          maxAge: 3000,
+          setHeaders: function (res, path, stat) {
+            console.log(path);
+            res.set('X-Auth', 's467v9');
+          }
+        }
+    )
+);
 
 app.use('/', routes);
 app.use('/users', users);

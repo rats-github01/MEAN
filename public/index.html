@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="base.css"/>
+    <title>Demo</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('myApp', []).controller('MyController', function ($scope, People) {
+            $scope.message = 'Hello from angular!';
+
+            $scope.getPeople = function () {
+                People.get().then(function (resp) {
+                    console.log(resp.data);
+                    $scope.people = resp.data.people;
+                });
+            }
+
+        }).factory('People', function ($http) {
+            return {
+                // this object as the Person service
+                get: function () {
+                    return $http.get('/people');
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="MyController">
+
+        <h1>People</h1>
+        <button ng-click="getPeople()">Get People</button>
+        <br>
+        <ul>
+            <li ng-repeat="person in people">
+                Name: {{person.name}} & Email: {{person.email}}
+            </li>
+        </ul>
+
+    </div>
+</body>
+</html>

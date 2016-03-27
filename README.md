@@ -6,4 +6,5 @@
  - Git commit the current state / update the master branch
  - Run from the command line ``` heroku create project-name ```
  - git push heroku master
- 
+ - ``` heroku addons:create mongolab --app project-name ``` - requisition a free mongodb server
+ - ``` heroku config --app project-name ```
